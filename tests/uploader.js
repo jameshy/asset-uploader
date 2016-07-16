@@ -68,7 +68,6 @@ describe('Asset Uploader', function() {
         // create test asset files
         testFiles.forEach((path) => fs.ensureFileSync(assetDir + path))
         
-
         // upload asset files and write manifest file
         var manifestPath = temp.path({suffix: 'manifest.json'})
         
@@ -77,7 +76,6 @@ describe('Asset Uploader', function() {
 
         // load manifest file
         var contents = yield fs.readFileAsync(manifestPath)
-        console.log(contents.toString('utf8'))
 
         // it should have the same contents as the returned manifest object
         expect(contents.toString('utf8')).to.equal(JSON.stringify(manifest))
