@@ -31,4 +31,3 @@ var resolver = new assetUploader.Resolver('./manifest.json')
 resolver.resolve('/css/styles.css')
 // returns 'css/styles.d41d8cd98f00b204e9800998ecf8427e.css'
 >> 
-```
