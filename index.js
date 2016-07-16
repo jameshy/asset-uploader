@@ -53,7 +53,7 @@ var self = module.exports = {
     },
 
     // use a glob pattern for find asset files
-    find(root, pattern) {
+    findAssets(root, pattern) {
         var options = {
             root: root,
             nodir: true
@@ -124,7 +124,7 @@ var self = module.exports = {
     }),
 
     upload: Promise.coroutine(function* (root, pattern, outputManifestPath) {
-        var files = yield self.find(root, pattern)
+        var files = yield self.findAssets(root, pattern)
         var manifest = yield Promise.map(files, (path) => self.uploadAsset(root, path))
         .reduce((manifest, asset) => {
             manifest[asset.path] = asset.s3Key
@@ -138,6 +138,24 @@ var self = module.exports = {
         }
         return manifest
         
-    })
+    }),
+
+    Resolver: function(manifestPath) {
+        if (!new.target) {
+            return new self.Resolver(manifestPath)
+        }
+
+        // parse the json
+        var contents = fs.readFileSync(manifestPath)
+        var manifest = JSON.parse(contents)
+
+        this.resolve = function(path) {
+            return manifest[path]
+        }
+
+
+        return this
+        
+    }
 }
 

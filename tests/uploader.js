@@ -3,9 +3,10 @@ require('./lib')
 const temp = require("temp").track()
 const assetUploader = require('../')
 const fs = require('fs-extra')
+const path = require('path')
 
 
-describe('Uploader', function() {
+describe('Asset Uploader', function() {
     this.timeout(40000)
 
     it('should produce hashed filenames correctly', function() {
@@ -29,7 +30,7 @@ describe('Uploader', function() {
         fs.ensureFileSync(assetDir + '/subdir/a.txt')
         fs.ensureFileSync(assetDir + '/subdir/b.txt')
 
-       var assets = yield assetUploader.find(assetDir, '/subdir/*.txt')
+       var assets = yield assetUploader.findAssets(assetDir, '/subdir/*.txt')
 
        var expected = [
            assetDir + '/subdir/a.txt',
@@ -76,6 +77,7 @@ describe('Uploader', function() {
 
         // load manifest file
         var contents = yield fs.readFileAsync(manifestPath)
+        console.log(contents.toString('utf8'))
 
         // it should have the same contents as the returned manifest object
         expect(contents.toString('utf8')).to.equal(JSON.stringify(manifest))
@@ -83,5 +85,13 @@ describe('Uploader', function() {
         // remove temp file
         return fs.remove(manifestPath)
 
+    })
+
+    it('should resolve correctly', function() {
+        var manifestPath = path.join(__dirname, 'fixtures/manifest.json')
+        var resolver = new assetUploader.Resolver(manifestPath)
+
+        expect(resolver.resolve('/subdir/a.txt')).to.equal('subdir/a.d41d8cd98f00b204e9800998ecf8427e.txt')
+        expect(resolver.resolve('/subdir/b.txt')).to.equal('subdir/b.d41d8cd98f00b204e9800998ecf8427e.txt')
     })
 })
