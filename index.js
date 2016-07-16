@@ -29,8 +29,8 @@ var self = module.exports = {
     concurrency: 5,
     
     // produce a new filename that includes the hash
-    // for example, when filename = 'test.txt', and hash = 'a4f8r'
-    // it will return test.a4f8r.txt
+    // for example, when filename = 'test.txt', and hash = 'd41d8cd98f00b204e9800998ecf8427e'
+    // it will return test.d41d8cd98f00b204e9800998ecf8427e.txt
     generateFilename(originalFilename, hash) {
         var ext = path.extname(originalFilename)
         var filename = path.basename(originalFilename, ext)
@@ -114,13 +114,30 @@ var self = module.exports = {
         // remove the leading /
         s3Key = s3Key.substring(1)
 
-        return self.uploadToS3(absolutePath, s3Key, hash)
+        yield self.uploadToS3(absolutePath, s3Key, hash)
+
+        return {
+            s3Key: s3Key,
+            path: relativePath
+        }
         
     }),
 
-    upload: Promise.coroutine(function* (root, pattern) {
+    upload: Promise.coroutine(function* (root, pattern, outputManifestPath) {
         var files = yield self.find(root, pattern)
-        return Promise.map(files, (path) => self.uploadAsset(root, path))
+        var manifest = yield Promise.map(files, (path) => self.uploadAsset(root, path))
+        .reduce((manifest, asset) => {
+            manifest[asset.path] = asset.s3Key
+            return manifest
+        }, {})
+        
+        if (outputManifestPath) {
+            var json = JSON.stringify(manifest)
+            yield fs.writeFileAsync(outputManifestPath, json)
+            return manifest
+        }
+        return manifest
+        
     })
 }
 
