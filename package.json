@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jameshy/s3-asset-uploader#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "co-mocha": "^1.1.2",
     "fs-extra": "^0.30.0",
     "mocha": "^2.5.3",
@@ -25,7 +26,6 @@
   "dependencies": {
     "aws-sdk": "^2.4.7",
     "bluebird": "^3.4.1",
-    "chai": "^3.5.0",
     "fs-extra": "^0.30.0",
     "glob": "^7.0.5",
     "mime": "^1.3.4",
