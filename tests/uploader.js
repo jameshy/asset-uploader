@@ -15,13 +15,13 @@ describe('Asset Uploader', function() {
     this.timeout(40000)
 
     it('should produce hashed filenames correctly', function() {
-        assetUploader.generateFilename(
+        assetUploader._generateFilename(
             'test.txt',
             'd41d8cd98f00b204e9800998ecf8427e'
         )
         .should.equal('test.d41d8cd98f00b204e9800998ecf8427e.txt')
 
-        assetUploader.generateFilename(
+        assetUploader._generateFilename(
             'extension-less',
             'd41d8cd98f00b204e9800998ecf8427e'
         )
@@ -35,7 +35,7 @@ describe('Asset Uploader', function() {
         fs.ensureFileSync(assetDir + '/subdir/a.txt')
         fs.ensureFileSync(assetDir + '/subdir/b.txt')
 
-       var assets = yield assetUploader.findAssets(assetDir, '/subdir/*.txt')
+       var assets = yield assetUploader._findAssets(assetDir, '/subdir/*.txt')
 
        var expected = [
            assetDir + '/subdir/a.txt',
