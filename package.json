@@ -2,7 +2,7 @@
   "name": "s3-asset-uploader",
   "version": "0.0.1",
   "description": "Upload assets to s3",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "mocha tests"
   },
@@ -21,6 +21,7 @@
     "co-mocha": "^1.1.2",
     "fs-extra": "^0.30.0",
     "mocha": "^2.5.3",
+    "mock-aws-s3": "^2.3.0",
     "temp": "^0.8.3"
   },
   "dependencies": {

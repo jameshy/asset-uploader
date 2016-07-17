@@ -1,9 +1,12 @@
 require('./lib')
 
-const temp = require("temp").track()
-const assetUploader = require('../')
 const fs = require('fs-extra')
 const path = require('path')
+const temp = require("temp").track()
+
+const AssetUploader = require('../')
+const provider = new AssetUploader.Providers.S3('s3-asset-uploader-testing')
+const assetUploader = new AssetUploader(provider)
 
 
 describe('Asset Uploader', function() {
@@ -87,7 +90,8 @@ describe('Asset Uploader', function() {
 
     it('should resolve correctly', function() {
         var manifestPath = path.join(__dirname, 'fixtures/manifest.json')
-        var resolver = new assetUploader.Resolver(manifestPath)
+
+        var resolver = assetUploader.Resolver(manifestPath)
 
         expect(resolver.resolve('/subdir/a.txt')).to.equal('subdir/a.d41d8cd98f00b204e9800998ecf8427e.txt')
         expect(resolver.resolve('/subdir/b.txt')).to.equal('subdir/b.d41d8cd98f00b204e9800998ecf8427e.txt')
