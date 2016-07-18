@@ -1,22 +1,26 @@
 require('./lib')
 
-const temp = require("temp").track()
-const assetUploader = require('../')
 const fs = require('fs-extra')
 const path = require('path')
+const temp = require("temp").track()
+
+const MockProvider = require('./lib/mockprovider')
+const AssetUploader = require('../')
+
+const provider = new MockProvider()
+const assetUploader = new AssetUploader(provider)
 
 
 describe('Asset Uploader', function() {
-    this.timeout(40000)
 
     it('should produce hashed filenames correctly', function() {
-        assetUploader.generateFilename(
+        assetUploader._generateFilename(
             'test.txt',
             'd41d8cd98f00b204e9800998ecf8427e'
         )
         .should.equal('test.d41d8cd98f00b204e9800998ecf8427e.txt')
 
-        assetUploader.generateFilename(
+        assetUploader._generateFilename(
             'extension-less',
             'd41d8cd98f00b204e9800998ecf8427e'
         )
@@ -30,7 +34,7 @@ describe('Asset Uploader', function() {
         fs.ensureFileSync(assetDir + '/subdir/a.txt')
         fs.ensureFileSync(assetDir + '/subdir/b.txt')
 
-       var assets = yield assetUploader.findAssets(assetDir, '/subdir/*.txt')
+       var assets = yield assetUploader._findAssets(assetDir, '/subdir/*.txt')
 
        var expected = [
            assetDir + '/subdir/a.txt',
@@ -68,7 +72,6 @@ describe('Asset Uploader', function() {
         // create test asset files
         testFiles.forEach((path) => fs.ensureFileSync(assetDir + path))
         
-
         // upload asset files and write manifest file
         var manifestPath = temp.path({suffix: 'manifest.json'})
         
@@ -77,7 +80,6 @@ describe('Asset Uploader', function() {
 
         // load manifest file
         var contents = yield fs.readFileAsync(manifestPath)
-        console.log(contents.toString('utf8'))
 
         // it should have the same contents as the returned manifest object
         expect(contents.toString('utf8')).to.equal(JSON.stringify(manifest))
@@ -89,9 +91,19 @@ describe('Asset Uploader', function() {
 
     it('should resolve correctly', function() {
         var manifestPath = path.join(__dirname, 'fixtures/manifest.json')
-        var resolver = new assetUploader.Resolver(manifestPath)
 
-        expect(resolver.resolve('/subdir/a.txt')).to.equal('subdir/a.d41d8cd98f00b204e9800998ecf8427e.txt')
-        expect(resolver.resolve('/subdir/b.txt')).to.equal('subdir/b.d41d8cd98f00b204e9800998ecf8427e.txt')
+        var resolver = assetUploader.Resolver(manifestPath)
+
+        expect(resolver.resolve('/subdir/a.txt')).to.equal('/subdir/a.d41d8cd98f00b204e9800998ecf8427e.txt')
+        expect(resolver.resolve('/subdir/b.txt')).to.equal('/subdir/b.d41d8cd98f00b204e9800998ecf8427e.txt')
+    })
+
+    it('should return the original path if not found in the manifest', function() {
+        var manifestPath = path.join(__dirname, 'fixtures/manifest.json')
+        
+        var resolver = assetUploader.Resolver(manifestPath)
+
+        expect(resolver.resolve('/subdir/non-existant.txt')).to.equal('/subdir/non-existant.txt')
+
     })
 })
