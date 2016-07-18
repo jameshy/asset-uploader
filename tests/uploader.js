@@ -99,4 +99,13 @@ describe('Asset Uploader', function() {
         expect(resolver.resolve('/subdir/a.txt')).to.equal('subdir/a.d41d8cd98f00b204e9800998ecf8427e.txt')
         expect(resolver.resolve('/subdir/b.txt')).to.equal('subdir/b.d41d8cd98f00b204e9800998ecf8427e.txt')
     })
+
+    it('should return the original path if not found in the manifest', function() {
+        var manifestPath = path.join(__dirname, 'fixtures/manifest.json')
+        
+        var resolver = assetUploader.Resolver(manifestPath)
+
+        expect(resolver.resolve('/subdir/non-existant.txt')).to.equal('/subdir/non-existant.txt')
+
+    })
 })
