@@ -3,10 +3,11 @@ require('./lib')
 const fs = require('fs-extra')
 const path = require('path')
 const temp = require("temp").track()
-const MockProvider = require('./lib/mockprovider')
 
+const MockProvider = require('./lib/mockprovider')
 const AssetUploader = require('../')
-// const provider = new AssetUploader.Providers.S3('s3-asset-uploader-testing')
+
+
 const provider = new MockProvider()
 const assetUploader = new AssetUploader(provider)
 
