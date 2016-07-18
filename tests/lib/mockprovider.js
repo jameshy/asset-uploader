@@ -13,8 +13,7 @@ module.exports = class S3 {
     constructor() {
     }
 
-    * upload(key, hash, readStream, contentType) {
-        
+    upload(key, hash, readStream, contentType) {
         expect(key).to.be.a('string')
         expect(hash).to.be.a('string')
 
@@ -22,6 +21,9 @@ module.exports = class S3 {
             throw new Error('not a ReadStream')
         }
         expect(contentType).to.be.a('string')
+
+        expect(key.charAt(0)).to.not.equal('/')
+        return Promise.resolve()
     }
 }
 
