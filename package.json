@@ -1,6 +1,6 @@
 {
   "name": "asset-uploader",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Upload web assets to a cloud provider (s3 or azure)",
   "main": "lib/index.js",
   "scripts": {
