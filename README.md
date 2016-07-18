@@ -1,4 +1,4 @@
-# s3-asset-uploader
+# asset-uploader
 
 Library for uploading web assets to Amazon S3 or Azure Storage to support a "Never expire" policy.
 
@@ -21,7 +21,7 @@ Later you can use the manifest file when generating HTML.
 ### Uploading assets and generating a manifest.json
 
 ```js
-const AssetUploader = require('s3-asset-uploader')
+const AssetUploader = require('asset-uploader')
 
 const provider = new assetUploader.Providers.S3('bucket-name')
 const assetUploader = new AssetUploader(provider)

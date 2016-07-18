@@ -8,21 +8,22 @@ function isReadableStream(obj) {
 }
 
 
-module.exports = class S3 {
+module.exports = class MockProvider {
 
     constructor() {
     }
 
     upload(key, hash, readStream, contentType) {
         expect(key).to.be.a('string')
+        expect(key.charAt(0)).to.not.equal('/')
+
         expect(hash).to.be.a('string')
 
         if (!isReadableStream(readStream)) {
             throw new Error('not a ReadStream')
         }
+        
         expect(contentType).to.be.a('string')
-
-        expect(key.charAt(0)).to.not.equal('/')
         return Promise.resolve()
     }
 }
