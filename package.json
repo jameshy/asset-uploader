@@ -1,21 +1,21 @@
 {
-  "name": "s3-asset-uploader",
-  "version": "0.0.1",
-  "description": "Upload assets to s3",
+  "name": "asset-uploader",
+  "version": "0.0.2",
+  "description": "Upload web assets to a cloud provider (s3 or azure)",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha tests"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/jameshy/s3-asset-uploader.git"
+    "url": "git+ssh://git@github.com/jameshy/asset-uploader.git"
   },
   "author": "James Hutchby",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jameshy/s3-asset-uploader/issues"
+    "url": "https://github.com/jameshy/asset-uploader/issues"
   },
-  "homepage": "https://github.com/jameshy/s3-asset-uploader#readme",
+  "homepage": "https://github.com/jameshy/asset-uploader#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "co-mocha": "^1.1.2",
