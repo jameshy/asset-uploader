@@ -23,10 +23,13 @@ Later you can use the manifest file when generating HTML.
 ```js
 const AssetUploader = require('asset-uploader')
 
-const provider = new assetUploader.Providers.S3('bucket-name')
+const provider = new AssetUploader.Providers.S3('bucket-name')
 const assetUploader = new AssetUploader(provider)
 
-yield assetUploader.upload('./assets', '/**/*', './manifest.json')
+assetUploader.upload('./assets', '/**/*', './manifest.json')
+.then(() => {
+    console.log('wrote ./manifest.json!')
+})
 ```
 
 ### Lookup assets when running in production
