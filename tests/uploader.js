@@ -7,13 +7,11 @@ const temp = require("temp").track()
 const MockProvider = require('./lib/mockprovider')
 const AssetUploader = require('../')
 
-
 const provider = new MockProvider()
 const assetUploader = new AssetUploader(provider)
 
 
 describe('Asset Uploader', function() {
-    this.timeout(40000)
 
     it('should produce hashed filenames correctly', function() {
         assetUploader._generateFilename(
