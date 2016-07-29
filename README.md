@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/jameshy/asset-uploader.svg?branch=master)](https://travis-ci.org/jameshy/s3-asset-uploader)
+[![npm version](https://badge.fury.io/js/asset-uploader.svg)](https://badge.fury.io/js/asset-uploader)
 # asset-uploader
 
 Library for uploading web assets to Amazon S3 or Azure Storage to support a "Never expire" policy.
