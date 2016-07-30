@@ -1,11 +1,12 @@
 [![Build Status](https://travis-ci.org/jameshy/asset-uploader.svg?branch=master)](https://travis-ci.org/jameshy/s3-asset-uploader)
+[![npm version](https://badge.fury.io/js/asset-uploader.svg)](https://badge.fury.io/js/asset-uploader)
 # asset-uploader
 
 Library for uploading web assets to Amazon S3 or Azure Storage to support a "Never expire" policy.
 
 It uploads files in a directory, changing their name to a hashed version, and provides a JSON lookup file.
 
-For example, a directory containing 1 file "/css/styles.css":
+For example, a directory containing a single file, "/css/styles.css":
 
 It will generate an md5 hash of the file, and upload it as "/css/styles.\<hash>.css".
 
